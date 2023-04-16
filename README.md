@@ -30,6 +30,5 @@ docker-compose --version
 4. Скопируйте файлы `docker-compose.yaml` и `nginx/default.conf` из вашего проекта на сервер в home/<ваш_username>/docker-compose.yaml и home/<ваш_username>/nginx/default.conf соответственно.
 
 
-
 Команда разработчиков:
 
