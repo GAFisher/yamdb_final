@@ -20,11 +20,20 @@ source venv/bin/activate
 python3 -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
-### Подготовка репозитория на GitHub
-Добавьте в Secrets GitHub Actions переменные окружения: 
-* DOCKER_USERNAME и DOCKER_PASSWORD - для 
 
-* DB_ENGINE, DB_NAME, POSTGRES_USER, POSTGRES_PASSWORD, 
+### Подготовка репозитория на GitHub
+Workflow состоит из четырёх шагов:
+1. Тестирование проекта.
+2. Сборка и публикация образа.
+3. Автоматический деплой.
+4. Отправка уведомления в персональный чат.
+
+Добавьте в Secrets GitHub Actions переменные окружения: 
+* DOCKER_USERNAME и DOCKER_PASSWORD - для загрузки и скачивания образа с Docker Hub;
+* HOST, USER, SSH_KEY, PASSPHRASE - для подключения к удалённому серверу;
+* DB_ENGINE, DB_NAME, POSTGRES_USER, POSTGRES_PASSWORD, DB_HOST и DB_PORT - для работы базы данных; 
+* TELEGRAM_TO и TELEGRAM_TOKEN - для отправки уведомлений в Телеграм. 
+
 
 ### Подготовка сервера 
 1. Остановите службу nginx: 
@@ -47,10 +56,33 @@ docker-compose --version
 4. Скопируйте файлы `docker-compose.yaml` и `nginx/default.conf` на сервер в home/<ваш_username>/docker-compose.yaml и home/<ваш_username>/nginx/default.conf соответственно.
 5. Проект будет доступен по адресу: `http://<ipбоевогосервера>`
 
-Workflow состоит из четырёх шагов:
-1. Тестирование проекта.
-2. Сборка и публикация образа.
-3. Автоматический деплой.
-4. Отправка уведомления в персональный чат.
+### Запуск проекта 
+1. Выполните по очереди команды:
+```
+docker-compose exec web python manage.py makemigrations user
+docker-compose exec web python manage.py makemigrations reviews
+docker-compose exec web python manage.py migrate
+```
+* Выполните команду для заполнения базы данными:  
+```
+docker-compose exec web python manage.py import_csv_to_orm
+```
+* Создайте суперпользователя: 
+```
+docker-compose exec web python manage.py createsuperuser
+```
+* Выполните команду для сбора статических файлов:
+```
+docker-compose exec web python manage.py collectstatic --no-input
+```
+* Создайте дамп (резервную копию) базы:
+```
+docker-compose exec web python manage.py dumpdata > fixtures.json 
+```
+2. Проект будет доступен по адресу `http://<ipбоевогосервера>/`.
+3. Документация будет доступна по адресу `http://<ipбоевогосервера>/redoc/`. В документации описано, как должен работать ваш API. Документация представлена в формате Redoc.
 
-Документация будет доступна по адресу `http://<ipбоевогосервера>/redoc/` после того, как вы запустите проект. В документации описано, как должен работать ваш API. Документация представлена в формате Redoc.
+### Команда разработчиков
+[Витас Вакаускас](https://github.com/Qerced)
+[Виталий Асташкевич](https://github.com/Vitalino13/)
+[Галина Фишер](https://github.com/GAFisher)
