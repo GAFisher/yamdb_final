@@ -1,5 +1,6 @@
 # CI и CD проекта YaMDb
-## Описание
+![example event parameter](https://github.com/GAFisher/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg?event=push)
+### Описание
 Проект YaMDb собирает отзывы пользователей на произведения. Произведения делятся на категории, такие как «Книги», «Фильмы», «Музыка».
 
 В проекте с помощью Continuous Integration и Continuous Deployment реализованы: 
@@ -7,10 +8,25 @@
 * обновление образов на Docker Hub,
 * автоматический деплой на боевой сервер при пуше в главную ветку main.
 
-## Технологии
-![example event parameter](https://github.com/GAFisher/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg?event=push)
+### Начало работы
+1. Клонируйте репозиторий на локальную машину.
+2. Создайте и активируйте виртуальное окружение:
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+2. Установите зависимости из файла requirements.txt:
+```
+python3 -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+### Подготовка репозитория на GitHub
+Добавьте в Secrets GitHub Actions переменные окружения: 
+* DOCKER_USERNAME и DOCKER_PASSWORD - для 
 
-## Подготовка сервера к работе
+* DB_ENGINE, DB_NAME, POSTGRES_USER, POSTGRES_PASSWORD, 
+
+### Подготовка сервера 
 1. Остановите службу nginx: 
 ```
 sudo systemctl stop nginx
@@ -29,7 +45,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 4. Скопируйте файлы `docker-compose.yaml` и `nginx/default.conf` на сервер в home/<ваш_username>/docker-compose.yaml и home/<ваш_username>/nginx/default.conf соответственно.
-5. Проект будет доступен по адресу: `http://<ipбоевогосервера>:8000`
+5. Проект будет доступен по адресу: `http://<ipбоевогосервера>`
 
 Workflow состоит из четырёх шагов:
 1. Тестирование проекта.
@@ -37,4 +53,4 @@ Workflow состоит из четырёх шагов:
 3. Автоматический деплой.
 4. Отправка уведомления в персональный чат.
 
-## Запуск проекта
+Документация будет доступна по адресу `http://<ipбоевогосервера>/redoc/` после того, как вы запустите проект. В документации описано, как должен работать ваш API. Документация представлена в формате Redoc.
