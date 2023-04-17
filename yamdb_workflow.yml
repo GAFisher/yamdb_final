@@ -1,4 +1,4 @@
-name: yamdb workflow
+name: yamdb_workflow
 
 on: [push]
 
@@ -43,7 +43,7 @@ jobs:
         with:
           push: true
           context: ./api_yamdb/
-          tags: galinafisher/yamdb_final:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/yamdb_final:latest
 
   deploy:
     runs-on: ubuntu-latest
