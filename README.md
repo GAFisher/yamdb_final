@@ -86,3 +86,9 @@ docker-compose exec web python manage.py dumpdata > fixtures.json
 [Витас Вакаускас](https://github.com/Qerced)
 [Виталий Асташкевич](https://github.com/Vitalino13/)
 [Галина Фишер](https://github.com/GAFisher)
+
+### Ссылки
+С готовой версией проекта можно ознакомиться по следующим ссылкам:
+* [Админка](http://62.84.123.223/admin/), доступ: `admin`/`Admin123`
+* [API](http://62.84.123.223/api/v1/)
+* [Документация](http://62.84.123.223/redoc/)
